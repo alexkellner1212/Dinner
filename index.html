@@ -4,11 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DINNER NIGHT // Planer</title>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
     <style>
         /* --- NEOFIT STYLE DEFINITIONEN --- */
         :root {
-            --bg-dark: #0a0a12; /* Sehr dunkler Hintergrund */
-            --card-bg: rgba(20, 20, 35, 0.8); /* Transparente dunkle Karten */
+            --bg-dark: #0a0a12;
+            --card-bg: rgba(20, 20, 35, 0.8);
             --neon-pink: #ff00ff;
             --neon-cyan: #00ffff;
             --neon-purple: #9d00ff;
@@ -16,9 +19,8 @@
         }
 
         body {
-            font-family: 'Montserrat', 'Segoe UI', sans-serif; /* Moderne Schriftart */
+            font-family: 'Montserrat', 'Segoe UI', sans-serif;
             background-color: var(--bg-dark);
-            /* Subtiler Hintergrund-Effekt passend zum Bild */
             background-image: radial-gradient(circle at 50% 20%, rgba(157, 0, 255, 0.1) 0%, rgba(10, 10, 18, 1) 70%);
             color: var(--text-light);
             margin: 0;
@@ -31,14 +33,11 @@
             font-weight: 300;
             letter-spacing: 4px;
             text-transform: uppercase;
-            /* Der leuchtende Ring-Effekt als Text */
             color: #fff;
             text-shadow: 
                 0 0 5px #fff,
-                0 0 10px #fff,
                 0 0 20px var(--neon-pink),
-                0 0 40px var(--neon-cyan),
-                0 0 80px var(--neon-purple);
+                0 0 40px var(--neon-cyan);
             margin-bottom: 40px;
         }
 
@@ -50,49 +49,33 @@
             gap: 30px;
         }
 
-        @media (max-width: 850px) {
-            .container { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 850px) { .container { grid-template-columns: 1fr; } }
 
-        /* --- KARTEN STYLING (Glowing Borders) --- */
+        /* KARTEN */
         .card {
             background: var(--card-bg);
             padding: 25px;
             border-radius: 15px;
-            backdrop-filter: blur(10px); /* Milchglas-Effekt */
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1); /* Subtiler Cyan Glow */
-            transition: box-shadow 0.3s ease;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
         }
-        
-        .card:hover {
-             box-shadow: 0 0 30px rgba(0, 255, 255, 0.3), inset 0 0 20px rgba(0,255,255,0.05);
-        }
-        
         .card-pink-glow {
              box-shadow: 0 0 20px rgba(255, 0, 255, 0.1);
              border: 1px solid rgba(255, 0, 255, 0.2);
         }
-        .card-pink-glow:hover {
-             box-shadow: 0 0 30px rgba(255, 0, 255, 0.3), inset 0 0 20px rgba(255,0,255,0.05);
-        }
-
 
         h2 {
             margin-top: 0;
             border-bottom: 1px solid rgba(255, 255, 255, 0.2);
             padding-bottom: 15px;
             font-weight: 300;
-            letter-spacing: 2px;
             color: var(--neon-cyan);
             text-shadow: 0 0 8px var(--neon-cyan);
         }
-        .pink-title h2 {
-            color: var(--neon-pink);
-            text-shadow: 0 0 8px var(--neon-pink);
-        }
+        .pink-title h2 { color: var(--neon-pink); text-shadow: 0 0 8px var(--neon-pink); }
 
-        /* --- FORMULAR INPUTS & BUTTONS --- */
+        /* INPUTS & BUTTONS */
         input {
             width: 100%;
             padding: 12px;
@@ -102,13 +85,8 @@
             border-radius: 8px;
             color: #fff;
             box-sizing: border-box;
-            transition: all 0.3s;
         }
-        input:focus {
-            outline: none;
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
-        }
+        input:focus { outline: none; border-color: var(--neon-cyan); box-shadow: 0 0 15px rgba(0, 255, 255, 0.5); }
 
         button.main-btn {
             width: 100%;
@@ -118,25 +96,14 @@
             background: linear-gradient(45deg, var(--neon-purple), var(--neon-cyan));
             color: #fff;
             font-weight: bold;
-            letter-spacing: 1px;
             cursor: pointer;
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s;
         }
-        button.main-btn.pink-btn {
-             background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
-             box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
-        }
+        button.main-btn:hover { transform: translateY(-2px); }
+        button.main-btn.pink-btn { background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple)); box-shadow: 0 0 20px rgba(255, 0, 255, 0.4); }
 
-        button.main-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
-        }
-        button.main-btn.pink-btn:hover {
-             box-shadow: 0 0 30px rgba(255, 0, 255, 0.7);
-        }
-
-        /* --- LISTEN & LÖSCHEN STYLING --- */
+        /* LISTEN */
         ul { list-style: none; padding: 0; }
         li {
             padding: 12px;
@@ -147,87 +114,48 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            animation: glowFadeIn 0.5s ease-in;
         }
         li span.who { font-weight: bold; color: var(--neon-cyan); margin-right: 10px;}
         
-        /* Der Löschen-Button (kleines rotes X) */
         .delete-btn {
-            background: transparent;
-            border: 1px solid rgba(255, 50, 50, 0.5);
-            color: rgba(255, 50, 50, 0.8);
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.8em;
-            margin-left: 10px;
-            transition: all 0.2s;
+            background: transparent; border: 1px solid rgba(255, 50, 50, 0.5); color: rgba(255, 50, 50, 0.8);
+            cursor: pointer; padding: 4px 8px; border-radius: 4px; font-size: 0.8em; margin-left: 10px;
         }
-        .delete-btn:hover {
-            background: rgba(255, 0, 0, 0.2);
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.6);
-            color: #ff3333;
-        }
+        .delete-btn:hover { background: rgba(255, 0, 0, 0.2); color: #ff3333; }
 
-        /* --- CHAT STYLING --- */
+        /* CHAT */
         #chat-window {
-            height: 350px;
-            overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            margin-bottom: 15px;
-            padding: 15px;
-            background-color: rgba(0,0,0,0.2);
-            border-radius: 8px;
-            /* Custom Scrollbar für den Cyberpunk Look */
-            scrollbar-width: thin;
-            scrollbar-color: var(--neon-pink) #0a0a12;
+            height: 350px; overflow-y: auto; border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 15px; padding: 15px; background-color: rgba(0,0,0,0.2); border-radius: 8px;
         }
-        #chat-window::-webkit-scrollbar { width: 8px; }
-        #chat-window::-webkit-scrollbar-track { background: #0a0a12; }
-        #chat-window::-webkit-scrollbar-thumb { background-color: var(--neon-pink); border-radius: 4px; }
-
         .message {
-            margin-bottom: 10px;
-            padding: 8px;
-            border-radius: 6px;
-            background: rgba(255, 0, 255, 0.05);
-            border-left: 2px solid var(--neon-pink);
-            font-size: 0.9em;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            animation: glowFadeIn 0.5s ease-in;
+            margin-bottom: 10px; padding: 8px; border-radius: 6px;
+            background: rgba(255, 0, 255, 0.05); border-left: 2px solid var(--neon-pink); font-size: 0.9em;
+            display: flex; justify-content: space-between;
         }
-        .message strong { color: var(--neon-pink); }
         .message-content { flex-grow: 1; margin-right: 10px;}
-
-        @keyframes glowFadeIn {
-            from { opacity: 0; box-shadow: 0 0 0 rgba(0,0,0,0); }
-            to { opacity: 1; }
-        }
+        .message strong { color: var(--neon-pink); }
     </style>
 </head>
 <body>
 
-    <h1>⭕DINNER PARTY ⭕</h1>
+    <h1>⭕ DINNER PARTY ⭕</h1>
 
     <div class="container">
         <div class="card">
             <h2>// FOOD & DRINKS</h2>
             <div id="food-form">
                 <input type="text" id="food-name" placeholder="Code Name (Dein Name)">
-                <input type="text" id="food-item" placeholder=" (Was bringst du? zb. Trüffel , Prosecco)">
-                <button class="main-btn" onclick="addFood()">ITEM EINTRAGEN</button>
+                <input type="text" id="food-item" placeholder="(Was bringst du? Trüffel , Prosecco)">
+                <button class="main-btn" onclick="addFood()">ITEM EINTRAGEN & SENDEN</button>
             </div>
-            <ul id="food-list">
-                </ul>
+            <ul id="food-list"></ul>
         </div>
 
         <div class="card card-pink-glow pink-title">
             <h2>// LIVE COMMS KANAL</h2>
-            <div id="chat-window">
-                </div>
-            <input type="text" id="chat-name" placeholder="Alias ID (Dein Name)" value="">
+            <div id="chat-window"></div>
+            <input type="text" id="chat-name" placeholder="Alias ID (Dein Name)">
             <input type="text" id="chat-message" placeholder="Nachricht übermitteln..." onkeypress="handleEnter(event)">
             <button class="main-btn pink-btn" onclick="sendMessage()">SENDEN</button>
         </div>
@@ -237,7 +165,9 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
         import { getDatabase, ref, push, onChildAdded, remove, onChildRemoved } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-        // --- KONFIGURATION START (DEINE DATEN HIER REIN) ---
+        // ==========================================
+        // 1. FIREBASE CONFIG (HIER DEINE DATEN)
+        // ==========================================
         const firebaseConfig = {
             apiKey: "HIER_API_KEY_EINFÜGEN",
             authDomain: "DEIN_PROJEKT.firebaseapp.com",
@@ -247,30 +177,58 @@
             messagingSenderId: "123456789",
             appId: "1:123456789:web:abcdef"
         };
-        // --- KONFIGURATION ENDE ---
 
-        // App initialisieren
+        // ==========================================
+        // 2. EMAIL CONFIG (HIER DEINE NEUEN DATEN)
+        // ==========================================
+        const EMAILJS_PUBLIC_KEY = "HIER_PUBLIC_KEY_EINFÜGEN"; // z.B. "user_AbCdEfGh..."
+        const EMAILJS_SERVICE_ID = "HIER_SERVICE_ID_EINFÜGEN"; // z.B. "service_gmail"
+        const EMAILJS_TEMPLATE_ID = "HIER_TEMPLATE_ID_EINFÜGEN"; // z.B. "template_dinner"
+
+        // Initialisierung
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-
-        const foodRef = ref(db, 'food_neofit'); // Neuer Pfadname für den neuen Style
+        const foodRef = ref(db, 'food_neofit');
         const chatRef = ref(db, 'chat_neofit');
 
-        // --- FUNKTIONEN ---
+        // EmailJS starten
+        (function(){
+            emailjs.init(EMAILJS_PUBLIC_KEY);
+        })();
 
-        // Essen hinzufügen
+        // --- ESSEN EINTRAGEN + EMAIL SENDEN ---
         window.addFood = function() {
             const name = document.getElementById('food-name').value;
             const item = document.getElementById('food-item').value;
+
             if(name && item) {
+                // 1. In Datenbank speichern
                 push(foodRef, { name: name, item: item });
+
+                // 2. Email senden
+                const btn = document.querySelector('button.main-btn');
+                const oldText = btn.innerText;
+                btn.innerText = "Sende Info..."; // Feedback für User
+                
+                emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    name: name,
+                    item: item,
+                    to_email: "alex_kellner@me.com" 
+                }).then(function() {
+                    console.log("Email gesendet!");
+                    btn.innerText = oldText;
+                }, function(error) {
+                    console.log("Email Fehler:", error);
+                    btn.innerText = oldText; // Trotzdem zurücksetzen
+                });
+
                 document.getElementById('food-item').value = '';
             } else {
                 alert("FEHLER: Name und Supply Drop erforderlich.");
             }
         }
 
-        // Chat Nachricht senden
+        // --- CHAT ---
         window.sendMessage = function() {
             const name = document.getElementById('chat-name').value;
             const msg = document.getElementById('chat-message').value;
@@ -278,8 +236,6 @@
                 push(chatRef, { name: name, message: msg, time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) });
                 document.getElementById('chat-message').value = '';
                 localStorage.setItem('chatName', name); 
-            } else {
-                alert("FEHLER: Alias ID und Nachricht erforderlich.");
             }
         }
 
@@ -287,41 +243,32 @@
             if(e.key === 'Enter') window.sendMessage();
         }
 
-        // --- LÖSCH-FUNKTION (NEU!) ---
-        // Diese Funktion wird aufgerufen, wenn man auf das "X" klickt
+        // --- LÖSCHEN ---
         window.deleteItem = function(type, key) {
-            if(confirm("Eintrag wirklich aus der Datenbank löschen?")) {
+            if(confirm("Eintrag wirklich löschen?")) {
                 const itemRef = ref(db, type + '_neofit/' + key);
-                remove(itemRef).catch(error => {
-                    alert("Löschen fehlgeschlagen: " + error.message);
-                });
+                remove(itemRef);
             }
         }
 
-        // Gespeicherten Namen laden
+        // --- NAMEN LADEN ---
         if(localStorage.getItem('chatName')) {
             document.getElementById('chat-name').value = localStorage.getItem('chatName');
             document.getElementById('food-name').value = localStorage.getItem('chatName');
         }
 
-        // --- LIVE LISTENERS (Hinzufügen) ---
-
-        // Essen wird hinzugefügt
+        // --- LISTENERS (Live Updates) ---
         onChildAdded(foodRef, (snapshot) => {
             const data = snapshot.val();
-            const key = snapshot.key; // Die einzigartige ID des Eintrags
+            const key = snapshot.key;
             const list = document.getElementById('food-list');
             const li = document.createElement('li');
-            li.id = key; // Dem Element die ID geben
-            // Inhalt + Lösch-Button
-            li.innerHTML = `
-                <div><span class="who">${data.name}</span> <span>${data.item}</span></div>
-                <button class="delete-btn" onclick="deleteItem('food', '${key}')">&times;</button>
-            `;
+            li.id = key;
+            li.innerHTML = `<div><span class="who">${data.name}</span> <span>${data.item}</span></div>
+                            <button class="delete-btn" onclick="deleteItem('food', '${key}')">&times;</button>`;
             list.appendChild(li);
         });
 
-        // Chat Nachricht kommt rein
         onChildAdded(chatRef, (snapshot) => {
             const data = snapshot.val();
             const key = snapshot.key;
@@ -329,34 +276,21 @@
             const div = document.createElement('div');
             div.className = "message";
             div.id = key;
-            // Inhalt + Lösch-Button (auch im Chat möglich)
-            div.innerHTML = `
-                <div class="message-content"><strong>[${data.time}] ${data.name}:</strong> ${data.message}</div>
-                 <button class="delete-btn" onclick="deleteItem('chat', '${key}')">&times;</button>
-            `;
+            div.innerHTML = `<div class="message-content"><strong>[${data.time}] ${data.name}:</strong> ${data.message}</div>
+                             <button class="delete-btn" onclick="deleteItem('chat', '${key}')">&times;</button>`;
             chatWin.appendChild(div);
             chatWin.scrollTop = chatWin.scrollHeight;
         });
 
-        // --- LIVE LISTENERS (Entfernen - NEU!) ---
-        // Damit es auch live vom Bildschirm verschwindet, wenn jemand anderes löscht
-
         onChildRemoved(foodRef, (snapshot) => {
-            const key = snapshot.key;
-            const elementToRemove = document.getElementById(key);
-            if(elementToRemove) {
-                elementToRemove.remove();
-            }
+            const el = document.getElementById(snapshot.key);
+            if(el) el.remove();
         });
 
         onChildRemoved(chatRef, (snapshot) => {
-            const key = snapshot.key;
-            const elementToRemove = document.getElementById(key);
-            if(elementToRemove) {
-                elementToRemove.remove();
-            }
+            const el = document.getElementById(snapshot.key);
+            if(el) el.remove();
         });
-
     </script>
 </body>
 </html>
